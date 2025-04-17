@@ -28,7 +28,7 @@ const ListingFilters = ({ onChange }) => {
       />
       <Stepper label='guest' value={guests} onChange={setGuests} />
       <Button onClick={handleSumbit}>
-        <Search className='w-4 h-4' />
+        <Search className='h-4 w-4' />
       </Button>
     </div>
   );
