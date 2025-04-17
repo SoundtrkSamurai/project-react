@@ -1,4 +1,4 @@
-import ListingCard from '@/components/ui/ListingCard';
+import ListingCard from '@/components/ListingCard';
 
 const ListingList = ({ listings }) => {
   return (

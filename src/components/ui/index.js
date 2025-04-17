@@ -8,7 +8,7 @@ export * from './Checkbox';
 export * from './DateRangePicker';
 export * from './DropdownMenu';
 export * from './Input';
-export * from './ListingList';
+export * from '../ListingList';
 export * from './Popover';
 export * from './Progress';
 export * from './Select';
