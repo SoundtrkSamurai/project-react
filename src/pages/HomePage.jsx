@@ -1,6 +1,7 @@
 import { filter, includes, toLower } from 'lodash';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import api from '@/api';
 import {
   isListingAvailable,
   listings as staticListings,
@@ -11,6 +12,15 @@ import { Separator } from '@/components/ui';
 
 const HomePage = () => {
   const [listings, setListings] = useState(staticListings);
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      const response = await api.get('/api/listings');
+      setListings(response.data);
+    };
+
+    fetchListings();
+  }, []);
 
   const handleFilters = (filters) => {
     const { dates, guests, search } = filters;
