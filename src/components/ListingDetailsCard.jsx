@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Card, Separator } from '@/components/ui';
 
-const ListingDestailsCard = ({
+const ListingDetailsCard = ({
   listing: { name, maxGuests, description, location, price },
 }) => {
   return (
@@ -31,4 +31,4 @@ const ListingDestailsCard = ({
   );
 };
 
-export default ListingDestailsCard;
+export default ListingDetailsCard;
