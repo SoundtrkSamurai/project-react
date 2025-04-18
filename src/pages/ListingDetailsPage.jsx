@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import api from '@/api';
-import ListingDetailsCard from '@/components/ListingDestailsCard';
+import ListingDetailsCard from '@/components/ListingDetailsCard';
 import { Spinner } from '@/components/ui';
 
 const ListingDetailsPage = () => {
@@ -46,7 +46,7 @@ const ListingDetailsPage = () => {
   const renderListing = () => {
     if (isLoading) {
       return (
-        <div className='flex jusitfy-center'>
+        <div className='flex justify-center'>
           <Spinner size='lg' />
         </div>
       );
