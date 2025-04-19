@@ -32,7 +32,7 @@ const HomePage = () => {
         <Separator className='my-4' />
       </div>
       <DataRenderer error={error} isLoading={isLoading}>
-        <ListingList listing={listings} />
+        <ListingList listings={listings} />
       </DataRenderer>
     </div>
   );

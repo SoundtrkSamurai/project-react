@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 import ListingCardImages from '@/components/ListingCardImages';
 import { Card, CardContent } from '@/components/ui';
-import { getImageUrl } from '@/lib/utils/images';
 
 const ListingCard = ({
   listing: { name, images, price, location, maxGuests, id },
