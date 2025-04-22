@@ -7,7 +7,7 @@ import api from '@/api';
 const initialState = {
   listings: [],
   error: null,
-  favoriteLisitingIds: [],
+  favoriteListingIds: [],
   status: 'idle',
 };
 
@@ -18,21 +18,21 @@ export const listingsSlice = createSlice({
     addFavoriteListing: (state, action) => {
       const { id } = action.payload;
 
-      if (includes(state.favoriteLisitingIds, id)) {
+      if (includes(state.favoriteListingIds, id)) {
         return;
       }
 
-      state.favoriteLisitingIds.push(id);
+      state.favoriteListingIds.push(id);
     },
     removeFavoriteListing: (state, action) => {
       const { id } = action.payload;
 
-      if (!includes(state.favoriteLisitingIds, id)) {
+      if (!includes(state.favoriteListingIds, id)) {
         return;
       }
 
-      state.favoriteLisitingIds = filter(
-        state.favoriteLisitingIds,
+      state.favoriteListingIds = filter(
+        state.favoriteListingIds,
         (listingId) => listingId !== id,
       );
     },
