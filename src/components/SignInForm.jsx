@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
+import api from '@/api';
 import {
   Button,
   Card,
@@ -10,6 +11,7 @@ import {
   Input,
   Separator,
 } from '@/components/ui';
+import { useAuth } from '@/context/AuthProvider';
 
 const signInFormSchema = z.object({
   email: z.string().email(),
@@ -19,12 +21,27 @@ const signInFormSchema = z.object({
 import React from 'react';
 
 const SignInForm = () => {
+  const { setToken } = useAuth();
+
   const {
-    formState: { errors },
+    formState: { errors, isSubmitting },
     register,
+    handleSubmit,
+    setError,
   } = useForm({
     resolver: zodResolver(signInFormSchema),
   });
+
+  const onSubmit = async (data) => {
+    try {
+      const response = await api.post('/auth/signin', data);
+      setToken(response.data.accessToken);
+    } catch (error) {
+      setError('root', {
+        message: error.response.data.message,
+      });
+    }
+  };
 
   return (
     <Card className='mx-auto w-[500px]'>
@@ -54,7 +71,14 @@ const SignInForm = () => {
             )}
           </div>
 
-          <Button>Sign In</Button>
+          <Button disabled={isSubmitting} onClick={handleSubmit(onSubmit)}>
+            {isSubmitting ? 'Loading...' : 'Sign In'}
+          </Button>
+          {errors['root'] && (
+            <div className='mt-2 text-sm text-center text-red-500'>
+              {errors['root'].message}
+            </div>
+          )}
         </form>
       </CardContent>
     </Card>
