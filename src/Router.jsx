@@ -4,6 +4,7 @@ import NotFoundPage from '@/components/NotFoundPage';
 import HomePage from '@/pages/HomePage';
 import ListingDetailsPage from '@/pages/ListingDetailsPage';
 import ListingFavoritesPage from '@/pages/ListingFavoritesPage';
+import SignInPage from '@/pages/SignInPage';
 
 import App from './App';
 
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: '/listings/:listingId',
         element: <ListingDetailsPage />,
+      },
+      {
+        path: '/signin',
+        element: <SignInPage />,
       },
     ],
   },
