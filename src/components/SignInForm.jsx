@@ -34,11 +34,11 @@ const SignInForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await api.post('/auth/signin', data);
+      const response = await api.post('/api/signin', data);
       setToken(response.data.accessToken);
-    } catch (error) {
+    } catch (e) {
       setError('root', {
-        message: error.response.data.message,
+        message: e.response.data.message,
       });
     }
   };
