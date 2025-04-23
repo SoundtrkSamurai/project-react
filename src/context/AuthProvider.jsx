@@ -1,5 +1,7 @@
 import invariant from 'invariant';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+
+import api from '@/api';
 
 const AuthContext = createContext(undefined);
 
@@ -13,6 +15,18 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(undefined);
+
+  useEffect(() => {
+    const fetchMe = async () => {
+      try {
+        const { data } = await api.get('/me');
+        setToken(data.accessToken);
+      } catch {
+        setToken(null);
+      }
+    };
+    fetchMe();
+  }, []);
 
   return (
     <AuthContext.Provider value={{ token, setToken }}>
