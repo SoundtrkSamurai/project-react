@@ -52,7 +52,7 @@ export const listingsSlice = createSlice({
         }
 
         state.status = 'failed';
-        state.error = action.payload.message;
+        state.error = action.error.message;
       });
   },
 });
