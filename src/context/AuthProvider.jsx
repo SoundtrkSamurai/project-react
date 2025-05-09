@@ -1,7 +1,9 @@
 import invariant from 'invariant';
-import { createContext, useContext, useEffect, useLayoutEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import api from '@/api';
+import { addUser } from '@/state/users/usersSlice';
 
 const AuthContext = createContext(undefined);
 
@@ -14,19 +16,37 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
+  const { users } = useSelector((state) => state.users);
+  const dispatch = useDispatch();
+
   const [token, setToken] = useState(undefined);
+  const [userId, setUserId] = useState(undefined);
+
+  // Provides easy access to user object
+  const user = users[userId];
+
+  const setUser = useCallback((user) => {
+    if (user) {
+      dispatch(addUser(user));
+      setUserId(user.id);
+    } else {
+      setUserId(null);
+    }
+  }, [dispatch])
 
   useEffect(() => {
     const fetchMe = async () => {
       try {
         const { data } = await api.get('/api/me');
         setToken(data.accessToken);
+        setUser(data.user);
       } catch {
         setToken(null);
+        setUser(null);
       }
     };
     fetchMe();
-  }, []);
+  }, [setUser]);
 
   useLayoutEffect(() => {
     const authInterceptor = api.interceptors.request.use((config) => {
@@ -53,16 +73,19 @@ export const AuthProvider = ({ children }) => {
           error.response.data.message === 'Unauthorized'
         ) {
           try {
-            const response = await api.get('/api/refreshToken');
+            const { data } = await api.get('/api/refreshToken');
 
-            setToken(response.data.accessToken);
+            setToken(data.accessToken);
+            setUser(data.user);8
 
-            originalRequest.headers.Authorization = `Bearer ${response.data.accessToken}`;
+            originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
             originalRequest._retry = true;
 
             return api(originalRequest);
           } catch {
             setToken(null);
+            setUser(null);
+            // If refresh token fails, we can log out the user or redirect to login
           }
         }
 
@@ -73,10 +96,10 @@ export const AuthProvider = ({ children }) => {
     return () => {
       api.interceptors.response.eject(refreshInterceptor);
     };
-  }, [token]);
+  }, [setUser, token]);
 
   return (
-    <AuthContext.Provider value={{ token, setToken }}>
+    <AuthContext.Provider value={{ token, setToken, setUser, user }}>
       {children}
     </AuthContext.Provider>
   );

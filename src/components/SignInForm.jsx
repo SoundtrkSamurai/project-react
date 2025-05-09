@@ -23,7 +23,7 @@ import Form from './Form';
 import TextInput from './TextInput';
 
 const SignInForm = () => {
-  const { setToken } = useAuth();
+  const { setToken, setUser } = useAuth();
 
   const form = useForm({
     resolver: zodResolver(signInFormSchema),
@@ -33,8 +33,9 @@ const SignInForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await signInMutation.mutateAsync(data);
-      setToken(response.data.accessToken);
+      const { data } = await signInMutation.mutateAsync(data);
+      setToken(data.accessToken);
+      setUser(data.user);
     } catch (e) {
       form.setError('root', {
         message: e.response.data.message,

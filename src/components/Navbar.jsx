@@ -12,7 +12,7 @@ import { useAuth } from '@/context/AuthProvider';
 import useSignOutMutation from '@/hooks/mutations/useSignOutMutation';
 
 const Navbar = () => {
-  const { setToken } = useAuth();
+  const { setToken, setUser } = useAuth();
 
   const signOutMutation = useSignOutMutation();
 
@@ -21,6 +21,7 @@ const Navbar = () => {
       signOutMutation.mutateAsync();
     } finally {
       setToken(null);
+      setUser(null)
     }
   };
 
