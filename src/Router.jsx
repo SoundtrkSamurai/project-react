@@ -1,9 +1,11 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import NotFoundPage from '@/components/NotFoundPage';
+import Route from '@/components/Route';
 import HomePage from '@/pages/HomePage';
 import ListingDetailsPage from '@/pages/ListingDetailsPage';
 import ListingFavoritesPage from '@/pages/ListingFavoritesPage';
+import SignInPage from '@/pages/SignInPage';
 
 import App from './App';
 
@@ -13,11 +15,23 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <NotFoundPage />,
     children: [
-      { path: '/', element: <HomePage /> },
-      { path: '/favorites', element: <ListingFavoritesPage /> },
+      { path: '/', element: <Route isProtected={true}>
+        <HomePage />
+      </Route> },
+      { path: '/favorites', element: <Route isProtected={true}>
+        <ListingFavoritesPage />
+      </Route> },
       {
         path: '/listings/:listingId',
-        element: <ListingDetailsPage />,
+        element: <Route isProtected={true}>
+          <ListingDetailsPage />
+        </Route>,
+      },
+      {
+        path: '/signin',
+        element: (<Route>
+          <SignInPage />
+        </Route>),
       },
     ],
   },
