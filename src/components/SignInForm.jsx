@@ -8,7 +8,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Input,
   Separator,
 } from '@/components/ui';
 import { useAuth } from '@/context/AuthProvider';
@@ -18,26 +17,27 @@ const signInFormSchema = z.object({
   password: z.string().min(8),
 });
 
-import React from 'react';
+import useSignInMutation from '@/hooks/mutations/useSignInMutation';
+
+import Form from './Form';
+import TextInput from './TextInput';
 
 const SignInForm = () => {
-  const { setToken } = useAuth();
+  const { setToken, setUser } = useAuth();
 
-  const {
-    formState: { errors, isSubmitting },
-    register,
-    handleSubmit,
-    setError,
-  } = useForm({
+  const form = useForm({
     resolver: zodResolver(signInFormSchema),
   });
 
+  const signInMutation = useSignInMutation();
+
   const onSubmit = async (data) => {
     try {
-      const response = await api.post('/api/signin', data);
-      setToken(response.data.accessToken);
+      const { data } = await signInMutation.mutateAsync(data);
+      setToken(data.accessToken);
+      setUser(data.user);
     } catch (e) {
-      setError('root', {
+      form.setError('root', {
         message: e.response.data.message,
       });
     }
@@ -53,33 +53,21 @@ const SignInForm = () => {
         <Separator />
       </CardHeader>
       <CardContent>
-        <form className='flex flex-col gap-4'>
-          <div>
-            <Input {...register('email')} placeholder='name@example.com' />
-            {errors['email'] && (
-              <div className='mt-2 text-sm text-red-500'>
-                {errors['email'].message}
-              </div>
-            )}
-          </div>
-          <div>
-            <Input {...register('password')} type='password' />
-            {errors['password'] && (
-              <div className='mt-2 text-sm text-red-500'>
-                {errors['password'].message}
-              </div>
-            )}
-          </div>
-
-          <Button disabled={isSubmitting} onClick={handleSubmit(onSubmit)}>
-            {isSubmitting ? 'Loading...' : 'Sign In'}
+        <Form form={form}>
+          <TextInput
+            control={form.control}
+            name='email'
+            placeholder='name@example'
+            type='email'
+          />
+          <TextInput control={form.control} name='password' type='password' />
+          <Button
+            disabled={signInMutation.isPending}
+            onClick={form.handleSubmit(onSubmit)}
+          >
+            {signInMutation.isPending ? 'Loading...' : 'Sign In'}
           </Button>
-          {errors['root'] && (
-            <div className='mt-2 text-sm text-center text-red-500'>
-              {errors['root'].message}
-            </div>
-          )}
-        </form>
+        </Form>
       </CardContent>
     </Card>
   );

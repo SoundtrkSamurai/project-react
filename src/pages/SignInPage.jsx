@@ -5,14 +5,14 @@ import SignInForm from '@/components/SignInForm';
 import { useAuth } from '@/context/AuthProvider';
 
 const SignInPage = () => {
-  const { token } = useAuth();
+  const { token, user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (token) {
+    if (token && user) {
       navigate('/', { replace: true });
     }
-  }, [navigate, token]);
+  }, [navigate, token, user]);
 
   return (
     <div className='container flex items-center justify-center h-screen py-4'>

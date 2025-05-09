@@ -1,16 +1,19 @@
+import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
+import api from '@/api';
 import DataRenderer from '@/components/DataRenderer';
 import ListingDetailsCard from '@/components/ListingDetailsCard';
-import useFetch from '@/hooks/useFetch';
+import useListingDetailsQuery from '@/hooks/queries/useListingDetailsQuery';
 
 const ListingDetailsPage = () => {
   const { listingId } = useParams();
+
   const {
-    data: listing,
+    data: {data: listing } = {},
     error,
     isLoading,
-  } = useFetch(`/api/listings/${listingId}`);
+  } = useListingDetailsQuery(listingId);
 
   return (
     <div className='container py-4'>
