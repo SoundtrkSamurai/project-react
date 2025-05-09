@@ -17,8 +17,10 @@ const signInFormSchema = z.object({
   password: z.string().min(8),
 });
 
-import TextInput from './TextInput';
+import useSignInMutation from '@/hooks/mutations/useSignInMutation';
+
 import Form from './Form';
+import TextInput from './TextInput';
 
 const SignInForm = () => {
   const { setToken } = useAuth();
@@ -27,9 +29,11 @@ const SignInForm = () => {
     resolver: zodResolver(signInFormSchema),
   });
 
+  const signInMutation = useSignInMutation();
+
   const onSubmit = async (data) => {
     try {
-      const response = await api.post('/api/signin', data);
+      const response = await signInMutation.mutateAsync(data);
       setToken(response.data.accessToken);
     } catch (e) {
       form.setError('root', {
@@ -57,10 +61,10 @@ const SignInForm = () => {
           />
           <TextInput control={form.control} name='password' type='password' />
           <Button
-            disabled={form.formState.isSubmitting}
+            disabled={signInMutation.isPending}
             onClick={form.handleSubmit(onSubmit)}
           >
-            {form.formState.isSubmitting ? 'Loading...' : 'Sign In'}
+            {signInMutation.isPending ? 'Loading...' : 'Sign In'}
           </Button>
         </Form>
       </CardContent>

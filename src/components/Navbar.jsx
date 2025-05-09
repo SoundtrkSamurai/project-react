@@ -9,13 +9,16 @@ import {
   Separator,
 } from '@/components/ui';
 import { useAuth } from '@/context/AuthProvider';
+import useSignOutMutation from '@/hooks/mutations/useSignOutMutation';
 
 const Navbar = () => {
   const { setToken } = useAuth();
 
+  const signOutMutation = useSignOutMutation();
+
   const handleSignOut = async () => {
     try {
-      await api.post('/api/signout');
+      signOutMutation.mutateAsync();
     } finally {
       setToken(null);
     }
