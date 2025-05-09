@@ -2,10 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { filter, includes } from 'lodash';
 
 const initialState = {
-  listings: [],
-  error: null,
   favoriteListingIds: [],
-  status: 'idle',
 };
 
 export const listingsSlice = createSlice({
