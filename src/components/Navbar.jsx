@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 
-import api from '@/api';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,7 +20,7 @@ const Navbar = () => {
       signOutMutation.mutateAsync();
     } finally {
       setToken(null);
-      setUser(null)
+      setUser(null);
     }
   };
 
@@ -37,6 +36,9 @@ const Navbar = () => {
               <Link>Account</Link>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end'>
+              <Link to='/profile'>
+                <DropdownMenuItem>Profile</DropdownMenuItem>
+              </Link>
               <DropdownMenuItem onClick={handleSignOut}>
                 Sign Out
               </DropdownMenuItem>
