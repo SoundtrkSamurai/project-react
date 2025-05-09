@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import api from '@/api';
 import DataRenderer from '@/components/DataRenderer';
 import ListingList from '@/components/ListingList';
+import useListingsQuery from '@/hooks/queries/useListingsQuery';
 
 const ListingFavoritesPage = () => {
   const { favoriteListingIds } = useSelector((state) => state.listings);
@@ -15,10 +16,7 @@ const ListingFavoritesPage = () => {
     data: { data: listings } = {},
     isError,
     isLoading,
-  } = useQuery({
-    queryKey: ['listings'],
-    queryFn: () => api.get('/api/listings'),
-  });
+  } = useListingsQuery();
 
   const favoriteListings = useMemo(
     () => filter(listings || [], ({ id }) => includes(favoriteListingIds, id)),

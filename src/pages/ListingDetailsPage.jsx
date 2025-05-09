@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import api from '@/api';
 import DataRenderer from '@/components/DataRenderer';
 import ListingDetailsCard from '@/components/ListingDetailsCard';
+import useListingDetailsQuery from '@/hooks/queries/useListingDetailsQuery';
 
 const ListingDetailsPage = () => {
   const { listingId } = useParams();
@@ -12,10 +13,7 @@ const ListingDetailsPage = () => {
     data: {data: listing } = {},
     error,
     isLoading,
-  } = useQuery({
-    queryKey: ['listing', listingId],
-    queryFn: () => api.get(`/api/listings/${listingId}`),
-  })
+  } = useListingDetailsQuery(listingId);
 
   return (
     <div className='container py-4'>
