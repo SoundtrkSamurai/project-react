@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar';
+import { displayName } from '@/lib/utils/displayName';
 
 const UserAvatar = ({ className, imageOnly, user }) => {
-  const displayName = `${user.firstName} ${user.lastName}`;
 
   return (
     <div className='flex flex-row items-center gap-2'>
@@ -17,7 +17,7 @@ const UserAvatar = ({ className, imageOnly, user }) => {
       {!imageOnly && (
         <div className='flex flex-col'>
           <span className='text-sm font-semibold text-primary'>
-            {displayName}
+            {displayName(user)}
           </span>
         </div>
       )}
