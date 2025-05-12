@@ -8,10 +8,11 @@ const App = () => {
   const { token } = useAuth();
   return (
     <>
-      <div className='fixed top-0 bottom-0 left-0'>
+      {/* <div className='fixed top-0 bottom-0 left-0'>
         <Devbar />
-      </div>
-      <div className='ml-[700px]'>
+      </div> */}
+      {/* <div className='ml-[700px]'> */}
+      <div>
         {token && <Navbar />}
         <Outlet />
       </div>

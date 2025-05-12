@@ -13,26 +13,28 @@ const Stepper = React.forwardRef(
         )}
       >
         <Button
-          type='button'
+          data-testid='stepper-decrement'
           disabled={value === 0}
-          variant='link'
           onClick={() => onChange(value - 1)}
+          type='button'
+          variant='link'
         >
           -
         </Button>
         <span
+          {...props}
           className={cn(!value && 'truncate text-muted-foreground')}
           ref={ref}
-          {...props}
         >
           {value} {label}
           {value > 1 || value === 0 ? 's' : ''}
         </span>
         <Button
-          type='button'
+          data-testid='stepper-increment'
           disabled={value === 100}
-          variant='link'
           onClick={() => onChange(value + 1)}
+          type='button'
+          variant='link'
         >
           +
         </Button>

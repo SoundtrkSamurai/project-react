@@ -11,6 +11,7 @@ const TextInput = ({ control, name, type = 'text', ...rest }) => {
     <div>
       <Input
         {...rest}
+        name={name}
         onBlur={form.field.onBlur}
         onChange={form.field.onChange}
         type={type}

@@ -13,9 +13,13 @@ const ListingFilters = ({ onChange }) => {
   };
 
   return (
-    <div className='flex flex-row items-center justify-center gap-2'>
+    <div
+      className='flex flex-row items-center justify-center gap-2'
+      data-testid='listing-filters'
+    >
       <Input
         className='w-[400px]'
+        name='search'
         onChange={(e) => setSearch(e.target.value)}
         placeholder='Search destinations'
         value={search}
@@ -27,8 +31,9 @@ const ListingFilters = ({ onChange }) => {
         value={dates}
       />
       <Stepper label='guest' value={guests} onChange={setGuests} />
-      <Button onClick={handleSumbit}>
-        <Search className='w-4 h-4' />
+      <Button onClick={handleSumbit} data-testid='listing-filters-submit'>
+        <span className='sr-only'>Search</span>
+        <Search className='h-4 w-4' />
       </Button>
     </div>
   );
