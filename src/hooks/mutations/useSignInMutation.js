@@ -4,7 +4,7 @@ import api from '@/api';
 
 const useSignInMutation = () => {
   return useMutation({
-    mutation: (data) => api.post('/api/signin', data),
+    mutationFn: (data) => api.post('/api/signin', data),
   });
 };
 

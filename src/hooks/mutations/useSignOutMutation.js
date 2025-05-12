@@ -4,7 +4,7 @@ import api from '@/api';
 
 const useSignOutMutation = () => {
   return useMutation({
-    mutation: (data) => api.post('/api/signout'),
+    mutationFn: () => api.post('/api/signout'),
   });
 };
 
